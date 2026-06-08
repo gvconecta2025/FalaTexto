@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FalaTexto</title>
+    <title>FalaTexto - Painel Profissional</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -20,41 +20,127 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 20px;
         }
-        .chat-container { width: 100%; max-width: 1050px; display: flex; flex-direction: column; }
-        h1 { color: #ffffff; font-size: 28px; font-weight: 700; text-align: left; margin-bottom: 4px; letter-spacing: -0.02em; }
-        .status { font-size: 13px; color: #9b9b9b; text-align: left; margin-bottom: 24px; min-height: 20px; font-weight: 400; }
+        .chat-container { width: 100%; max-width: 1400px; display: flex; flex-direction: column; }
+        h1 { color: #ffffff; font-size: 26px; font-weight: 700; text-align: left; margin-bottom: 4px; letter-spacing: -0.02em; }
+        .status { font-size: 13px; color: #9b9b9b; text-align: left; margin-bottom: 24px; min-height: 20px; }
         
-        .main-layout { display: flex; gap: 24px; width: 100%; align-items: flex-start; }
+        /* Nova Estrutura Arquitetônica em Três Colunas Simétricas */
+        .main-layout {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            align-items: stretch;
+        }
+        
+        /* Colunas de Texto (Esquerda e Direita) */
+        .text-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .column-label {
+            font-size: 11px;
+            color: #888888;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
         
         textarea {
-            flex: 1; height: 520px; background-color: #0d0d0d; color: #f3f4f6; border: 1px solid #2f2f2f;
-            border-radius: 16px; padding: 26px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 400;
-            line-height: 1.7; letter-spacing: -0.01em; resize: none; outline: none;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4); transition: background-color 0.4s ease, color 0.4s ease, border-color 0.3s ease;
+            width: 100%;
+            height: 560px;
+            background-color: #0d0d0d;
+            color: #f3f4f6;
+            border: 1px solid #2f2f2f;
+            border-radius: 16px;
+            padding: 24px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.65;
+            resize: none;
+            outline: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
         }
         textarea:focus { border-color: #4f4f4f; }
-        textarea.ia-delivered { background-color: #ffffff !important; color: #111111 !important; border-color: #e5e7eb; font-weight: 450; }
         
-        .sidebar-controls { width: 300px; display: flex; flex-direction: column; gap: 24px; flex-shrink: 0; }
-        .controls-group { display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid #2f2f2f; }
+        /* Caixa de Saída com realce suave ao receber resposta */
+        textarea.ia-delivered {
+            background-color: #ffffff !important;
+            color: #111111 !important;
+            border-color: #e5e7eb;
+            font-weight: 450;
+        }
         
-        button { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; border: 1px solid transparent; border-radius: 9999px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; justify-content: center; width: 100%; }
-        .btn-record { padding: 14px 24px; background-color: #ffffff; color: #000000; box-shadow: 0 2px 8px rgba(255,255,255,0.05); font-weight: 600; }
+        /* Coluna Central de Controles (Meio) */
+        .middle-controls {
+            width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex-shrink: 0;
+            justify-content: flex-start;
+            padding-top: 22px;
+        }
+        
+        .box-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #2f2f2f;
+        }
+        
+        .ai-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        button {
+            font-family: 'Inter', sans-serif;
+            font-size: 13.5px;
+            font-weight: 500;
+            border: 1px solid transparent;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .btn-record { padding: 14px 20px; background-color: #ffffff; color: #000000; font-weight: 600; box-shadow: 0 2px 6px rgba(255,255,255,0.05); }
         .btn-record:hover:not(:disabled) { background-color: #e2e2e2; transform: translateY(-1px); }
-        .btn-record.recording { background-color: #ef4444; color: #ffffff; border-color: #ef4444; animation: pulse 1.8s infinite; box-shadow: 0 0 14px rgba(239,68,68,0.35); }
-        .btn-secondary { padding: 12px 20px; background-color: #212121; color: #b4b4b4; border-color: #2f2f2f; }
+        .btn-record.recording { background-color: #ef4444; color: #ffffff; border-color: #ef4444; animation: pulse 1.8s infinite; }
+        
+        .btn-secondary { padding: 12px 18px; background-color: #212121; color: #b4b4b4; border-color: #2f2f2f; }
         .btn-secondary:hover:not(:disabled) { background-color: #2f2f2f; color: #ffffff; }
         
-        .ai-group { display: flex; flex-direction: column; gap: 12px; }
-        .ai-title { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 4px; font-weight: 600; }
-        .btn-ai { background-color: #1f2937; color: #f3f4f6; border: 1px solid #374151; padding: 16px 20px; border-radius: 14px; text-align: left; justify-content: flex-start; font-size: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); line-height: 1.4; }
+        .ai-title { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-bottom: 2px; }
+        
+        .btn-ai {
+            background-color: #1f2937; color: #f3f4f6; border: 1px solid #374151;
+            padding: 15px 18px; border-radius: 14px; text-align: left;
+            justify-content: flex-start; font-size: 13.5px; line-height: 1.4;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
         .btn-ai:hover:not(:disabled) { background-color: #273549; border-color: #4b5563; transform: translateX(3px); }
         .btn-ai:disabled { background-color: #111827; color: #4b5563; border-color: #1f2937; cursor: not-allowed; }
         
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
-        @media (max-width: 768px) { .main-layout { flex-direction: column; } .sidebar-controls { width: 100%; } textarea { height: 320px; } }
+        
+        /* Adaptação Responsiva para telas compactas */
+        @media (max-width: 1024px) {
+            .main-layout { flex-direction: column; }
+            .middle-controls { width: 100%; padding-top: 0; }
+            textarea { height: 280px; }
+        }
     </style>
 </head>
 <body>
@@ -64,21 +150,32 @@
     <div id="statusLabel" class="status">Pronto para gravar</div>
     
     <div class="main-layout">
-        <textarea id="output" placeholder="O texto da sua gravação aparecerá aqui..."></textarea>
         
-        <div class="sidebar-controls">
-            <div class="controls-group">
+        <div class="text-column">
+            <div class="column-label">🎙️ Entrada (Sua Fala Bruta)</div>
+            <textarea id="inputBox" placeholder="O texto ditado aparecerá aqui em tempo real..."></textarea>
+        </div>
+        
+        <div class="middle-controls">
+            <div class="box-buttons">
                 <button id="recordBtn" class="btn-record">Iniciar Gravação</button>
-                <button id="copyBtn" class="btn-secondary">Copiar Texto</button>
+                <button id="copyBtn" class="btn-secondary">Copiar Resultado</button>
                 <button id="clearBtn" class="btn-secondary">Limpar Tudo</button>
             </div>
             
             <div class="ai-group">
-                <div class="ai-title">Processamento Inteligente</div>
+                <div class="ai-title">Processamento de IA</div>
                 <button id="btnCorrigir" class="btn-ai">✨ 1. Apenas Pontuar e Corrigir</button>
-                <button id="btnEstruturar" class="btn-ai">📚 2. Estruturar Texto (Início, Meio e Fim)</button>
+                <button id="btnEstruturar" class="btn-ai">📚 2. Estruturar Texto (Início/Meio/Fim)</button>
+                <button id="btnPrompt" class="btn-ai">🛠️ 3. Criar Prompt de Programação</button>
             </div>
         </div>
+        
+        <div class="text-column">
+            <div class="column-label">🧠 Saída (Resultado Lapidado pela IA)</div>
+            <textarea id="outputBox" placeholder="O resultado refinado pela inteligência artificial aparecerá aqui..." readonly></textarea>
+        </div>
+        
     </div>
 </div>
 
@@ -88,7 +185,9 @@
     const clearBtn = document.getElementById('clearBtn');
     const btnCorrigir = document.getElementById('btnCorrigir');
     const btnEstruturar = document.getElementById('btnEstruturar');
-    const output = document.getElementById('output');
+    const btnPrompt = document.getElementById('btnPrompt');
+    const inputBox = document.getElementById('inputBox');
+    const outputBox = document.getElementById('outputBox');
     const statusLabel = document.getElementById('statusLabel');
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -114,17 +213,17 @@
                     interimTranscript += fragment;
                 }
             }
-            output.value = finalTranscript + interimTranscript;
-            output.scrollTop = output.scrollHeight;
+            inputBox.value = finalTranscript + interimTranscript;
+            inputBox.scrollTop = inputBox.scrollHeight;
         };
 
         recordBtn.addEventListener('click', () => {
-            if (output.classList.contains('ia-delivered')) {
-                limparTudo();
+            if (outputBox.classList.contains('ia-delivered')) {
+                outputBox.value = '';
+                outputBox.classList.remove('ia-delivered');
             }
 
             if (!isRecording) {
-                output.classList.remove('ia-delivered');
                 recognition.start();
                 isRecording = true;
                 statusLabel.textContent = "🎙️ Escutando... Fale livremente.";
@@ -134,7 +233,7 @@
             } else {
                 isRecording = false;
                 recognition.stop();
-                statusLabel.textContent = "Gravação pausada. Continue gravando ou envie para a IA.";
+                statusLabel.textContent = "Gravação pausada. Escolha uma ação de processamento.";
                 recordBtn.textContent = "Continuar Gravação";
                 recordBtn.classList.remove('recording');
                 travarBotoesIA(false);
@@ -145,21 +244,24 @@
     function travarBotoesIA(travar) {
         btnCorrigir.disabled = travar;
         btnEstruturar.disabled = travar;
+        btnPrompt.disabled = travar;
     }
 
     btnCorrigir.addEventListener('click', () => enviarParaDeepSeek('corrigir'));
     btnEstruturar.addEventListener('click', () => enviarParaDeepSeek('estruturar'));
+    btnPrompt.addEventListener('click', () => enviarParaDeepSeek('prompt'));
 
     async function enviarParaDeepSeek(modo) {
-        const textoBruto = output.value.trim();
+        const textoBruto = inputBox.value.trim();
         if (!textoBruto) {
-            statusLabel.textContent = "⚠️ A caixa de texto está vazia.";
+            statusLabel.textContent = "⚠️ A caixa de texto de entrada está vazia.";
             return;
         }
 
-        statusLabel.textContent = "🧠 Inteligência artificial processando (pode levar alguns segundos)...";
+        statusLabel.textContent = "🧠 Processando inteligência artificial no ambiente Edge...";
         travarBotoesIA(true);
         recordBtn.disabled = true;
+        outputBox.classList.remove('ia-delivered');
 
         try {
             const response = await fetch('/api/corrigir', {
@@ -168,29 +270,32 @@
                 body: JSON.stringify({ text: textoBruto, modo: modo })
             });
 
-            // Proteção de conversão JSON para quando a Vercel der Timeout extremo
             let data;
             try {
                 data = await response.json();
             } catch (err) {
-                statusLabel.textContent = "⚠️ Tempo limite excedido. O texto era muito longo ou a IA demorou muito.";
+                statusLabel.textContent = "⚠️ Tempo limite excedido ou resposta inválida do servidor.";
                 travarBotoesIA(false);
                 recordBtn.disabled = false;
                 return;
             }
             
             if (response.ok) {
-                output.value = data.correctedText;
-                output.classList.add('ia-delivered');
-                statusLabel.textContent = modo === 'estruturar' ? "📚 Texto estruturado com sucesso!" : "✨ Texto pontuado com sucesso!";
+                outputBox.value = data.correctedText;
+                outputBox.classList.add('ia-delivered');
+                
+                if (modo === 'prompt') statusLabel.textContent = "🛠️ Prompt de engenharia gerado com sucesso!";
+                else if (modo === 'estruturar') statusLabel.textContent = "📚 Texto estruturado com sucesso!";
+                else statusLabel.textContent = "✨ Texto pontuado com sucesso!";
+                
                 finalTranscript = '';
                 recordBtn.textContent = "Iniciar Gravação";
-                output.scrollTop = 0;
+                outputBox.scrollTop = 0;
             } else {
                 statusLabel.textContent = "⚠️ " + data.error;
             }
         } catch (err) {
-            statusLabel.textContent = "⚠️ Falha crítica na conexão de rede.";
+            statusLabel.textContent = "⚠️ Falha crítica de conexão de rede.";
         } finally {
             travarBotoesIA(false);
             recordBtn.disabled = false;
@@ -198,9 +303,10 @@
     }
 
     function limparTudo() {
-        output.value = '';
+        inputBox.value = '';
+        outputBox.value = '';
         finalTranscript = '';
-        output.classList.remove('ia-delivered');
+        outputBox.classList.remove('ia-delivered');
         statusLabel.textContent = "Pronto para gravar";
         recordBtn.textContent = "Iniciar Gravação";
     }
@@ -208,9 +314,17 @@
     clearBtn.addEventListener('click', limparTudo);
 
     copyBtn.addEventListener('click', () => {
-        if (output.value.trim() === "") return;
-        output.select();
+        // Copia preferencialmente da caixa de saída se houver conteúdo, caso contrário, copia a entrada
+        const textoParaCopiar = outputBox.value.trim() || inputBox.value.trim();
+        if (textoParaCopiar === "") return;
+        
+        const campoTemporario = document.createElement('textarea');
+        campoTemporario.value = textoParaCopiar;
+        document.body.appendChild(campoTemporario);
+        campoTemporario.select();
         document.execCommand('copy');
+        document.body.removeChild(campoTemporario);
+        
         const original = copyBtn.textContent;
         copyBtn.textContent = "Copiado!";
         setTimeout(() => copyBtn.textContent = original, 2000);
