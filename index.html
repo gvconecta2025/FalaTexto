@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FalaTexto - IA</title>
+    <title>FalaTexto</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #212121;
-            color: #ececf1;
+            background-color: #171717;
+            color: #e3e3e3;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,101 +18,109 @@
         }
         .chat-container {
             width: 100%;
-            max-width: 720px;
+            max-width: 680px;
             display: flex;
             flex-direction: column;
         }
         h1 {
-            color: #f9f9f9;
-            font-size: 24px;
+            color: #ffffff;
+            font-size: 26px;
             font-weight: 600;
             text-align: center;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             letter-spacing: -0.5px;
         }
         .status {
-            font-size: 14px;
-            color: #b4b4b4;
+            font-size: 13px;
+            color: #9b9b9b;
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             min-height: 20px;
         }
+        
+        /* Caixa de Texto com transições dinâmicas */
         textarea {
             width: 100%;
-            height: 300px;
-            background-color: #2f2f2f;
-            color: #f9f9f9;
-            border: 1px solid #424242;
-            border-radius: 16px;
-            padding: 24px;
+            height: 280px;
+            background-color: #0d0d0d;
+            color: #f3f4f6;
+            border: 1px solid #2f2f2f;
+            border-radius: 14px;
+            padding: 22px;
             font-size: 16px;
             line-height: 1.6;
             resize: vertical;
             outline: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            transition: border-color 0.2s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.3s ease;
             margin-bottom: 20px;
         }
-        textarea:focus { border-color: #676767; }
+        textarea:focus { border-color: #4f4f4f; }
         
-        /* Controles Básicos (Gravar, Copiar, Limpar) */
+        /* Estado da Caixa quando a IA devolve o texto */
+        textarea.ia-delivered {
+            background-color: #ffffff !important;
+            color: #111111 !important;
+            border-color: #e5e7eb;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Controles Principais Modernos */
         .controls-group {
             display: flex;
             gap: 12px;
             justify-content: center;
             margin-bottom: 24px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid #424242;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #2f2f2f;
         }
         button {
-            padding: 10px 20px;
             font-size: 14px;
-            border: none;
-            border-radius: 24px;
-            cursor: pointer;
-            transition: all 0.2s ease;
             font-weight: 500;
+            border: 1px solid transparent;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
-        .btn-record { background-color: #ececf1; color: #212121; }
-        .btn-record:hover:not(:disabled) { background-color: #dbdbe1; }
+        .btn-record {
+            padding: 12px 26px;
+            background-color: #ffffff;
+            color: #000000;
+            box-shadow: 0 2px 8px rgba(255,255,255,0.1);
+        }
+        .btn-record:hover:not(:disabled) { background-color: #e2e2e2; transform: translateY(-1px); }
         .btn-record.recording {
-            background-color: #f87171; color: #ffffff;
-            animation: pulse 1.5s infinite;
+            background-color: #ef4444; color: #ffffff; border-color: #ef4444;
+            animation: pulse 1.8s infinite; box-shadow: 0 0 12px rgba(239,68,68,0.4);
         }
         .btn-secondary {
-            background-color: transparent; color: #b4b4b4; border: 1px solid #424242;
+            padding: 12px 20px;
+            background-color: #212121; color: #b4b4b4; border-color: #2f2f2f;
         }
-        .btn-secondary:hover:not(:disabled) { background-color: #343541; color: #ececf1; }
+        .btn-secondary:hover:not(:disabled) { background-color: #2f2f2f; color: #ffffff; }
         
-        /* Controles da IA (Botões Empilhados) */
-        .ai-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        /* Grupo de IA Modernizado estilo Blocks */
+        .ai-group { display: flex; flex-direction: column; gap: 10px; }
         .ai-title {
-            font-size: 13px;
-            color: #8e8e93;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
+            font-size: 11px; color: #6b7280; text-transform: uppercase;
+            letter-spacing: 1.5px; margin-bottom: 2px; font-weight: 600;
         }
         .btn-ai {
-            background-color: #10a37f;
-            color: white;
-            padding: 14px;
-            font-size: 15px;
-            text-align: left;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
+            background-color: #1f2937; color: #f3f4f6; border: 1px solid #374151;
+            padding: 14px 20px; border-radius: 12px; text-align: left;
+            justify-content: flex-start; font-size: 14px; width: 100%;
         }
-        .btn-ai:hover:not(:disabled) { background-color: #0e906f; }
-        .btn-ai:disabled { background-color: #343541; color: #8e8e93; cursor: not-allowed; }
+        .btn-ai:hover:not(:disabled) {
+            background-color: #374151; border-color: #4b5563; transform: translateX(2px);
+        }
+        .btn-ai:disabled { background-color: #111827; color: #4b5563; border-color: #1f2937; cursor: not-allowed; }
         
         @keyframes pulse {
             0% { opacity: 1; }
-            50% { opacity: 0.6; }
+            50% { opacity: 0.7; }
             100% { opacity: 1; }
         }
     </style>
@@ -121,7 +129,7 @@
 
 <div class="chat-container">
     <h1>FalaTexto</h1>
-    <div id="statusLabel" class="status">Pronto para iniciar gravação</div>
+    <div id="statusLabel" class="status">Pronto para gravar</div>
     
     <textarea id="output" placeholder="O texto da sua gravação aparecerá aqui..."></textarea>
     
@@ -132,9 +140,9 @@
     </div>
     
     <div class="ai-group">
-        <div class="ai-title">Processamento da IA</div>
+        <div class="ai-title">Processamento Inteligente</div>
         <button id="btnCorrigir" class="btn-ai">✨ 1. Apenas Pontuar e Corrigir</button>
-        <button id="btnEstruturar" class="btn-ai">📚 2. Estruturar (Início, Meio e Fim)</button>
+        <button id="btnEstruturar" class="btn-ai">📚 2. Estruturar Texto (Início, Meio e Fim)</button>
     </div>
 </div>
 
@@ -150,6 +158,7 @@
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition;
     let isRecording = false;
+    let finalTranscript = '';
 
     if (!SpeechRecognition) {
         alert("Seu navegador não suporta reconhecimento de voz.");
@@ -158,8 +167,6 @@
         recognition.lang = 'pt-BR';
         recognition.continuous = true;
         recognition.interimResults = true;
-
-        let finalTranscript = '';
 
         recognition.onresult = (event) => {
             let interimTranscript = '';
@@ -175,8 +182,13 @@
         };
 
         recordBtn.addEventListener('click', () => {
+            // Se a caixa estiver branca (IA já respondeu), limpa tudo para começar um novo texto do zero
+            if (output.classList.contains('ia-delivered')) {
+                limparTudo();
+            }
+
             if (!isRecording) {
-                if(output.value.trim() === '') finalTranscript = '';
+                output.classList.remove('ia-delivered');
                 recognition.start();
                 isRecording = true;
                 statusLabel.textContent = "🎙️ Escutando... Fale livremente.";
@@ -186,7 +198,7 @@
             } else {
                 isRecording = false;
                 recognition.stop();
-                statusLabel.textContent = "Gravação pausada. Escolha um processamento abaixo.";
+                statusLabel.textContent = "Gravação pausada. Continue gravando ou envie para a IA.";
                 recordBtn.textContent = "Continuar Gravação";
                 recordBtn.classList.remove('recording');
                 travarBotoesIA(false);
@@ -199,7 +211,6 @@
         btnEstruturar.disabled = travar;
     }
 
-    // Ações da IA
     btnCorrigir.addEventListener('click', () => enviarParaDeepSeek('corrigir'));
     btnEstruturar.addEventListener('click', () => enviarParaDeepSeek('estruturar'));
 
@@ -225,9 +236,14 @@
             
             if (response.ok) {
                 output.value = data.correctedText;
-                statusLabel.textContent = modo === 'estruturar' 
-                    ? "📚 Texto estruturado com sucesso!" 
-                    : "✨ Texto revisado e pontuado!";
+                
+                // Ativa o fundo branco dinamicamente
+                output.classList.add('ia-delivered');
+                statusLabel.textContent = modo === 'estruturar' ? "📚 Texto estruturado!" : "✨ Texto pontuado!";
+                
+                // Zera as variáveis de gravação para o próximo texto começar do zero absoluto
+                finalTranscript = '';
+                recordBtn.textContent = "Iniciar Gravação";
             } else {
                 statusLabel.textContent = "⚠️ Ocorreu um erro: " + data.error;
             }
@@ -239,13 +255,15 @@
         }
     }
 
-    // Controles Básicos
-    clearBtn.addEventListener('click', () => {
+    function limparTudo() {
         output.value = '';
-        if(typeof finalTranscript !== 'undefined') finalTranscript = '';
-        statusLabel.textContent = "Pronto para iniciar gravação";
+        finalTranscript = '';
+        output.classList.remove('ia-delivered');
+        statusLabel.textContent = "Pronto para gravar";
         recordBtn.textContent = "Iniciar Gravação";
-    });
+    }
+
+    clearBtn.addEventListener('click', limparTudo);
 
     copyBtn.addEventListener('click', () => {
         if (output.value.trim() === "") return;
