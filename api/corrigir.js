@@ -3,11 +3,20 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Método não permitido' });
     }
 
-    const { text } = req.body;
+    const { text, modo } = req.body;
     const apiKey = process.env.DEEPSEEK_API_KEY;
 
     if (!apiKey) {
         return res.status(500).json({ error: 'Chave da API da DeepSeek não configurada no servidor Vercel.' });
+    }
+
+    // Definição dos dois prompts baseados no botão clicado
+    let systemPrompt = '';
+
+    if (modo === 'estruturar') {
+        systemPrompt = 'Você é um redator profissional e organizador de ideias. Sua tarefa é pegar a transcrição de um ditado de voz bruto e organizá-lo com começo (introdução do assunto), meio (agrupamento lógico e desenvolvimento dos argumentos) e fim (conclusão das ideias). IMPORTANTE: Você está estritamente proibido de inventar, criar ou alucinar qualquer informação nova. Sua função é exclusivamente organizar, estruturar e dar fluidez para o que foi explicitamente proposto no texto falado pelo autor.';
+    } else {
+        systemPrompt = 'Você é um revisor editorial ortográfico e gramatical experiente. Sua tarefa é pegar um texto gerado por transcrição de voz (ditado bruto) e inseri-lo no formato perfeito. Adicione pontos, vírgulas e identifique perguntas no contexto adicionando o ponto de interrogação correspondente. Corrija maiúsculas e minúsculas. Mantenha estritamente as palavras e o vocabulário originais do autor, apenas corrija a estrutura de pontuação e fonemas errados do ditado.';
     }
 
     try {
@@ -22,7 +31,7 @@ export default async function handler(req, res) {
                 messages: [
                     {
                         role: 'system',
-                        content: 'Você é um revisor editorial ortográfico e gramatical experiente. Sua tarefa é pegar um texto gerado por transcrição de voz (ditado bruto) e inseri-lo no formato perfeito. Adicione pontos, vírgulas e identifique perguntas no contexto adicionando o ponto de interrogação correspondente. Corrija maiúsculas e minúsculas. Mantenha estritamente as palavras e o vocabulário originais do autor, apenas corrija a estrutura de pontuação e fonemas errados do ditado.'
+                        content: systemPrompt
                     },
                     {
                         role: 'user',
