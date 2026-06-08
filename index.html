@@ -4,10 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FalaTexto</title>
+    <!-- Importação da fonte premium Inter para uma tipografia muito mais bonita e legível -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             background-color: #171717;
             color: #e3e3e3;
             display: flex;
@@ -24,57 +35,64 @@
         }
         h1 {
             color: #ffffff;
-            font-size: 26px;
-            font-weight: 600;
+            font-size: 28px;
+            font-weight: 700;
             text-align: center;
             margin-bottom: 4px;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.02em;
         }
         .status {
             font-size: 13px;
             color: #9b9b9b;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             min-height: 20px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
         }
         
-        /* Caixa de Texto com transições dinâmicas */
+        /* Caixa de Texto com tipografia lapidada e transições suaves */
         textarea {
             width: 100%;
-            height: 280px;
+            height: 320px;
             background-color: #0d0d0d;
             color: #f3f4f6;
             border: 1px solid #2f2f2f;
-            border-radius: 14px;
-            padding: 22px;
+            border-radius: 16px;
+            padding: 26px;
+            font-family: 'Inter', sans-serif;
             font-size: 16px;
-            line-height: 1.6;
+            font-weight: 400;
+            line-height: 1.7;
+            letter-spacing: -0.01em;
             resize: vertical;
             outline: none;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
             transition: background-color 0.4s ease, color 0.4s ease, border-color 0.3s ease;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         textarea:focus { border-color: #4f4f4f; }
         
-        /* Estado da Caixa quando a IA devolve o texto */
+        /* Estado da Caixa Elegante quando a IA entrega o resultado */
         textarea.ia-delivered {
             background-color: #ffffff !important;
             color: #111111 !important;
             border-color: #e5e7eb;
-            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
+            font-weight: 450;
+            box-shadow: 0 4px 24px rgba(255, 255, 255, 0.04);
         }
         
-        /* Controles Principais Modernos */
+        /* Controles Principais Modernos estilo pílula sutil */
         .controls-group {
             display: flex;
             gap: 12px;
             justify-content: center;
-            margin-bottom: 24px;
-            padding-bottom: 20px;
+            margin-bottom: 28px;
+            padding-bottom: 24px;
             border-bottom: 1px solid #2f2f2f;
         }
         button {
+            font-family: 'Inter', sans-serif;
             font-size: 14px;
             font-weight: 500;
             border: 1px solid transparent;
@@ -84,37 +102,40 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            letter-spacing: -0.01em;
         }
         .btn-record {
-            padding: 12px 26px;
+            padding: 12px 28px;
             background-color: #ffffff;
             color: #000000;
-            box-shadow: 0 2px 8px rgba(255,255,255,0.1);
+            box-shadow: 0 2px 8px rgba(255,255,255,0.05);
+            font-weight: 600;
         }
         .btn-record:hover:not(:disabled) { background-color: #e2e2e2; transform: translateY(-1px); }
         .btn-record.recording {
             background-color: #ef4444; color: #ffffff; border-color: #ef4444;
-            animation: pulse 1.8s infinite; box-shadow: 0 0 12px rgba(239,68,68,0.4);
+            animation: pulse 1.8s infinite; box-shadow: 0 0 14px rgba(239,68,68,0.35);
         }
         .btn-secondary {
-            padding: 12px 20px;
+            padding: 12px 22px;
             background-color: #212121; color: #b4b4b4; border-color: #2f2f2f;
         }
         .btn-secondary:hover:not(:disabled) { background-color: #2f2f2f; color: #ffffff; }
         
-        /* Grupo de IA Modernizado estilo Blocks */
-        .ai-group { display: flex; flex-direction: column; gap: 10px; }
+        /* Bloco de Processamento da IA */
+        .ai-group { display: flex; flex-direction: column; gap: 12px; }
         .ai-title {
             font-size: 11px; color: #6b7280; text-transform: uppercase;
-            letter-spacing: 1.5px; margin-bottom: 2px; font-weight: 600;
+            letter-spacing: 0.12em; margin-bottom: 4px; font-weight: 600;
         }
         .btn-ai {
             background-color: #1f2937; color: #f3f4f6; border: 1px solid #374151;
-            padding: 14px 20px; border-radius: 12px; text-align: left;
-            justify-content: flex-start; font-size: 14px; width: 100%;
+            padding: 16px 24px; border-radius: 14px; text-align: left;
+            justify-content: flex-start; font-size: 14.5px; width: 100%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         .btn-ai:hover:not(:disabled) {
-            background-color: #374151; border-color: #4b5563; transform: translateX(2px);
+            background-color: #273549; border-color: #4b5563; transform: translateX(3px);
         }
         .btn-ai:disabled { background-color: #111827; color: #4b5563; border-color: #1f2937; cursor: not-allowed; }
         
@@ -182,7 +203,6 @@
         };
 
         recordBtn.addEventListener('click', () => {
-            // Se a caixa estiver branca (IA já respondeu), limpa tudo para começar um novo texto do zero
             if (output.classList.contains('ia-delivered')) {
                 limparTudo();
             }
@@ -236,12 +256,8 @@
             
             if (response.ok) {
                 output.value = data.correctedText;
-                
-                // Ativa o fundo branco dinamicamente
                 output.classList.add('ia-delivered');
                 statusLabel.textContent = modo === 'estruturar' ? "📚 Texto estruturado!" : "✨ Texto pontuado!";
-                
-                // Zera as variáveis de gravação para o próximo texto começar do zero absoluto
                 finalTranscript = '';
                 recordBtn.textContent = "Iniciar Gravação";
             } else {
