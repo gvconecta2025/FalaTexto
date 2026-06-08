@@ -3,64 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ditado Inteligente com DeepSeek</title>
+    <title>FalaTexto</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #212121;
+            color: #ececf1;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            padding: 20px;
         }
-        .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        .chat-container {
             width: 100%;
-            max-width: 600px;
-            text-align: center;
+            max-width: 720px;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
         }
-        h1 { color: #333; margin-bottom: 20px; font-size: 24px; }
+        h1 {
+            color: #f9f9f9;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+        .status {
+            font-size: 14px;
+            color: #b4b4b4;
+            text-align: center;
+            margin-bottom: 24px;
+            min-height: 20px;
+        }
+        .text-area-wrapper {
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
         textarea {
             width: 100%;
-            height: 220px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            resize: none;
+            flex-grow: 1;
+            background-color: #2f2f2f;
+            color: #f9f9f9;
+            border: 1px solid #424242;
+            border-radius: 16px;
+            padding: 24px;
             font-size: 16px;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-            background-color: #fafafa;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+            font-family: inherit;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: border-color 0.2s ease;
         }
-        .status { font-size: 14px; color: #666; margin-bottom: 15px; min-height: 20px; }
-        .btn-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        textarea:focus {
+            border-color: #676767;
+        }
+        textarea::placeholder {
+            color: #7d7d7d;
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+        }
         button {
-            padding: 12px 20px;
+            padding: 12px 24px;
             font-size: 15px;
             border: none;
-            border-radius: 6px;
+            border-radius: 24px;
             cursor: pointer;
-            transition: background 0.3s;
-            font-weight: 600;
+            transition: all 0.2s ease;
+            font-weight: 500;
         }
-        .btn-record { background-color: #0076ff; color: white; }
-        .btn-record.recording { background-color: #ff3b30; }
-        .btn-copy { background-color: #34c759; color: white; }
-        .btn-clear { background-color: #8e8e93; color: white; }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-        button:hover:not(:disabled) { opacity: 0.9; }
+        .btn-record {
+            background-color: #ececf1;
+            color: #212121;
+        }
+        .btn-record:hover:not(:disabled) {
+            background-color: #dbdbe1;
+        }
+        .btn-record.recording {
+            background-color: #f87171;
+            color: #ffffff;
+            animation: pulse 1.5s infinite;
+        }
+        .btn-copy {
+            background-color: #343541;
+            color: #ececf1;
+            border: 1px solid #424242;
+        }
+        .btn-copy:hover:not(:disabled) {
+            background-color: #40414f;
+            border-color: #676767;
+        }
+        .btn-clear {
+            background-color: transparent;
+            color: #b4b4b4;
+        }
+        .btn-clear:hover:not(:disabled) {
+            color: #ececf1;
+        }
+        button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Ditado Inteligente (DeepSeek)</h1>
+<div class="chat-container">
+    <h1>FalaTexto</h1>
     <div id="statusLabel" class="status">Pronto para iniciar</div>
-    <textarea id="output" placeholder="O seu texto transcrito aparecerá aqui..."></textarea>
+    
+    <div class="text-area-wrapper">
+        <textarea id="output" placeholder="O texto da sua gravação aparecerá estruturado aqui..."></textarea>
+    </div>
     
     <div class="btn-group">
         <button id="recordBtn" class="btn-record">Iniciar Gravação</button>
@@ -104,29 +177,24 @@
 
         recordBtn.addEventListener('click', async () => {
             if (!isRecording) {
-                // Iniciar Escuta
                 output.value = '';
                 finalTranscript = '';
                 recognition.start();
                 isRecording = true;
-                statusLabel.textContent = "🎙️ Escutando sua voz... Fale naturalmente.";
+                statusLabel.textContent = "🎙️ Escutando... Fale livremente.";
                 recordBtn.textContent = "Parar e Pontuar";
                 recordBtn.classList.add('recording');
             } else {
-                // Parar Escuta e Chamar IA
                 isRecording = false;
                 recognition.stop();
-                statusLabel.textContent = "🧠 DeepSeek está analisando e pontuando o texto...";
+                statusLabel.textContent = "🧠 Inteligência artificial aplicando pontuação e correções...";
                 recordBtn.disabled = true;
 
-                // Pequeno delay para garantir que o último bloco de fala foi adicionado ao output
                 setTimeout(async () => {
                     const textoBruto = output.value.trim();
                     if (!textoBruto) {
-                        statusLabel.textContent = "Nenhum texto foi detectado.";
-                        recordBtn.disabled = false;
-                        recordBtn.textContent = "Iniciar Gravação";
-                        recordBtn.classList.remove('recording');
+                        statusLabel.textContent = "Nenhum comando ou fala detectados.";
+                        resetRecordButton();
                         return;
                     }
                     await enviarParaDeepSeek(textoBruto);
@@ -146,18 +214,22 @@
                 
                 if (response.ok) {
                     output.value = data.correctedText;
-                    statusLabel.textContent = "✨ Texto pontuado com sucesso!";
+                    statusLabel.textContent = "✨ Texto revisado e pontuado!";
                 } else {
-                    statusLabel.textContent = "⚠️ Erro ao processar: " + data.error;
+                    statusLabel.textContent = "⚠️ Ocorreu um erro: " + data.error;
                 }
             } catch (err) {
-                statusLabel.textContent = "⚠️ Erro na comunicação com o servidor.";
+                statusLabel.textContent = "⚠️ Falha na conexão com os servidores.";
                 console.error(err);
             } finally {
-                recordBtn.disabled = false;
-                recordBtn.textContent = "Iniciar Gravação";
-                recordBtn.classList.remove('recording');
+                resetRecordButton();
             }
+        }
+
+        function resetRecordButton() {
+            recordBtn.disabled = false;
+            recordBtn.textContent = "Iniciar Gravação";
+            recordBtn.classList.remove('recording');
         }
 
         clearBtn.addEventListener('click', () => {
