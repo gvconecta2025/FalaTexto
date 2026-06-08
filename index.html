@@ -4,17 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FalaTexto</title>
-    <!-- Importação da fonte premium Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -27,154 +22,39 @@
             min-height: 100vh;
             padding: 40px 20px;
         }
-        .chat-container {
-            width: 100%;
-            max-width: 1050px;
-            display: flex;
-            flex-direction: column;
-        }
-        h1 {
-            color: #ffffff;
-            font-size: 28px;
-            font-weight: 700;
-            text-align: left;
-            margin-bottom: 4px;
-            letter-spacing: -0.02em;
-        }
-        .status {
-            font-size: 13px;
-            color: #9b9b9b;
-            text-align: left;
-            margin-bottom: 24px;
-            min-height: 20px;
-            font-weight: 400;
-            letter-spacing: -0.01em;
-        }
+        .chat-container { width: 100%; max-width: 1050px; display: flex; flex-direction: column; }
+        h1 { color: #ffffff; font-size: 28px; font-weight: 700; text-align: left; margin-bottom: 4px; letter-spacing: -0.02em; }
+        .status { font-size: 13px; color: #9b9b9b; text-align: left; margin-bottom: 24px; min-height: 20px; font-weight: 400; }
         
-        /* Nova Estrutura de Layout Lado a Lado */
-        .main-layout {
-            display: flex;
-            gap: 24px;
-            width: 100%;
-            align-items: flex-start;
-        }
+        .main-layout { display: flex; gap: 24px; width: 100%; align-items: flex-start; }
         
-        /* Caixa de Texto Expandida (Lado Esquerdo) */
         textarea {
-            flex: 1;
-            height: 520px;
-            background-color: #0d0d0d;
-            color: #f3f4f6;
-            border: 1px solid #2f2f2f;
-            border-radius: 16px;
-            padding: 26px;
-            font-family: 'Inter', sans-serif;
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 1.7;
-            letter-spacing: -0.01em;
-            resize: none;
-            outline: none;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.3s ease;
+            flex: 1; height: 520px; background-color: #0d0d0d; color: #f3f4f6; border: 1px solid #2f2f2f;
+            border-radius: 16px; padding: 26px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 400;
+            line-height: 1.7; letter-spacing: -0.01em; resize: none; outline: none;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4); transition: background-color 0.4s ease, color 0.4s ease, border-color 0.3s ease;
         }
         textarea:focus { border-color: #4f4f4f; }
+        textarea.ia-delivered { background-color: #ffffff !important; color: #111111 !important; border-color: #e5e7eb; font-weight: 450; }
         
-        /* Estado da Caixa Elegante (Branca) após resposta da IA */
-        textarea.ia-delivered {
-            background-color: #ffffff !important;
-            color: #111111 !important;
-            border-color: #e5e7eb;
-            font-weight: 450;
-            box-shadow: 0 4px 24px rgba(255, 255, 255, 0.04);
-        }
+        .sidebar-controls { width: 300px; display: flex; flex-direction: column; gap: 24px; flex-shrink: 0; }
+        .controls-group { display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid #2f2f2f; }
         
-        /* Painel de Controle Lateral (Lado Direito) */
-        .sidebar-controls {
-            width: 300px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            flex-shrink: 0;
-        }
-        
-        /* Controles Básicos Organizados na Lateral */
-        .controls-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #2f2f2f;
-        }
-        
-        button {
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            border: 1px solid transparent;
-            border-radius: 9999px;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            letter-spacing: -0.01em;
-            width: 100%;
-        }
-        
-        .btn-record {
-            padding: 14px 24px;
-            background-color: #ffffff;
-            color: #000000;
-            box-shadow: 0 2px 8px rgba(255,255,255,0.05);
-            font-weight: 600;
-        }
+        button { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; border: 1px solid transparent; border-radius: 9999px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; justify-content: center; width: 100%; }
+        .btn-record { padding: 14px 24px; background-color: #ffffff; color: #000000; box-shadow: 0 2px 8px rgba(255,255,255,0.05); font-weight: 600; }
         .btn-record:hover:not(:disabled) { background-color: #e2e2e2; transform: translateY(-1px); }
-        .btn-record.recording {
-            background-color: #ef4444; color: #ffffff; border-color: #ef4444;
-            animation: pulse 1.8s infinite; box-shadow: 0 0 14px rgba(239,68,68,0.35);
-        }
-        
-        .btn-secondary {
-            padding: 12px 20px;
-            background-color: #212121; color: #b4b4b4; border-color: #2f2f2f;
-        }
+        .btn-record.recording { background-color: #ef4444; color: #ffffff; border-color: #ef4444; animation: pulse 1.8s infinite; box-shadow: 0 0 14px rgba(239,68,68,0.35); }
+        .btn-secondary { padding: 12px 20px; background-color: #212121; color: #b4b4b4; border-color: #2f2f2f; }
         .btn-secondary:hover:not(:disabled) { background-color: #2f2f2f; color: #ffffff; }
         
-        /* Bloco de Processamento Inteligente na Lateral */
-        .ai-group { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-        }
-        .ai-title {
-            font-size: 11px; color: #6b7280; text-transform: uppercase;
-            letter-spacing: 0.12em; margin-bottom: 4px; font-weight: 600;
-        }
-        .btn-ai {
-            background-color: #1f2937; color: #f3f4f6; border: 1px solid #374151;
-            padding: 16px 20px; border-radius: 14px; text-align: left;
-            justify-content: flex-start; font-size: 14px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            line-height: 1.4;
-        }
-        .btn-ai:hover:not(:disabled) {
-            background-color: #273549; border-color: #4b5563; transform: translateX(3px);
-        }
+        .ai-group { display: flex; flex-direction: column; gap: 12px; }
+        .ai-title { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 4px; font-weight: 600; }
+        .btn-ai { background-color: #1f2937; color: #f3f4f6; border: 1px solid #374151; padding: 16px 20px; border-radius: 14px; text-align: left; justify-content: flex-start; font-size: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); line-height: 1.4; }
+        .btn-ai:hover:not(:disabled) { background-color: #273549; border-color: #4b5563; transform: translateX(3px); }
         .btn-ai:disabled { background-color: #111827; color: #4b5563; border-color: #1f2937; cursor: not-allowed; }
         
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
-        }
-
-        /* Ajuste Responsivo caso a tela seja muito pequena */
-        @media (max-width: 768px) {
-            .main-layout { flex-direction: column; }
-            .sidebar-controls { width: 100%; }
-            textarea { height: 320px; }
-        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+        @media (max-width: 768px) { .main-layout { flex-direction: column; } .sidebar-controls { width: 100%; } textarea { height: 320px; } }
     </style>
 </head>
 <body>
@@ -183,31 +63,22 @@
     <h1>FalaTexto</h1>
     <div id="statusLabel" class="status">Pronto para gravar</div>
     
-    <!-- Novo Container Dividido -->
     <div class="main-layout">
-        
-        <!-- Caixa de Texto Expandida (Esquerda) -->
         <textarea id="output" placeholder="O texto da sua gravação aparecerá aqui..."></textarea>
         
-        <!-- Painel de Controles Lateral (Direita) -->
         <div class="sidebar-controls">
-            
-            <!-- Grupo de Gravação e Texto -->
             <div class="controls-group">
                 <button id="recordBtn" class="btn-record">Iniciar Gravação</button>
                 <button id="copyBtn" class="btn-secondary">Copiar Texto</button>
                 <button id="clearBtn" class="btn-secondary">Limpar Tudo</button>
             </div>
             
-            <!-- Grupo de Ações de IA -->
             <div class="ai-group">
                 <div class="ai-title">Processamento Inteligente</div>
                 <button id="btnCorrigir" class="btn-ai">✨ 1. Apenas Pontuar e Corrigir</button>
                 <button id="btnEstruturar" class="btn-ai">📚 2. Estruturar Texto (Início, Meio e Fim)</button>
             </div>
-            
         </div>
-        
     </div>
 </div>
 
@@ -244,8 +115,6 @@
                 }
             }
             output.value = finalTranscript + interimTranscript;
-            
-            // SOLUÇÃO DO ERRO: Força o scroll automático para o final sempre que surgir texto novo
             output.scrollTop = output.scrollHeight;
         };
 
@@ -288,7 +157,7 @@
             return;
         }
 
-        statusLabel.textContent = "🧠 Inteligência artificial processando...";
+        statusLabel.textContent = "🧠 Inteligência artificial processando (pode levar alguns segundos)...";
         travarBotoesIA(true);
         recordBtn.disabled = true;
 
@@ -299,22 +168,29 @@
                 body: JSON.stringify({ text: textoBruto, modo: modo })
             });
 
-            const data = await response.json();
+            // Proteção de conversão JSON para quando a Vercel der Timeout extremo
+            let data;
+            try {
+                data = await response.json();
+            } catch (err) {
+                statusLabel.textContent = "⚠️ Tempo limite excedido. O texto era muito longo ou a IA demorou muito.";
+                travarBotoesIA(false);
+                recordBtn.disabled = false;
+                return;
+            }
             
             if (response.ok) {
                 output.value = data.correctedText;
                 output.classList.add('ia-delivered');
-                statusLabel.textContent = modo === 'estruturar' ? "📚 Texto estruturado!" : "✨ Texto pontuado!";
+                statusLabel.textContent = modo === 'estruturar' ? "📚 Texto estruturado com sucesso!" : "✨ Texto pontuado com sucesso!";
                 finalTranscript = '';
                 recordBtn.textContent = "Iniciar Gravação";
-                
-                // Garante que o scroll do resultado final também comece do topo ou base limpa
                 output.scrollTop = 0;
             } else {
-                statusLabel.textContent = "⚠️ Ocorreu um erro: " + data.error;
+                statusLabel.textContent = "⚠️ " + data.error;
             }
         } catch (err) {
-            statusLabel.textContent = "⚠️ Falha na conexão com os servidores.";
+            statusLabel.textContent = "⚠️ Falha crítica na conexão de rede.";
         } finally {
             travarBotoesIA(false);
             recordBtn.disabled = false;
