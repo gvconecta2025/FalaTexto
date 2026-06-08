@@ -10,13 +10,12 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'Chave da API da DeepSeek não configurada no servidor Vercel.' });
     }
 
-    // Definição dos dois prompts baseados no botão clicado
     let systemPrompt = '';
 
     if (modo === 'estruturar') {
-        systemPrompt = 'Você é um redator profissional e organizador de ideias. Sua tarefa é pegar a transcrição de um ditado de voz bruto e organizá-lo com começo (introdução do assunto), meio (agrupamento lógico e desenvolvimento dos argumentos) e fim (conclusão das ideias). IMPORTANTE: Você está estritamente proibido de inventar, criar ou alucinar qualquer informação nova. Sua função é exclusivamente organizar, estruturar e dar fluidez para o que foi explicitamente proposto no texto falado pelo autor.';
+        systemPrompt = 'Você é um redator profissional e organizador de ideias. Sua tarefa é pegar a transcrição de um ditado de voz bruto e organizá-lo com começo (introdução do assunto), meio (desenvolvimento dos argumentos) e fim (conclusão das ideias) estruturado estritamente em parágrafos fluidos. REQUISITO ABSOLUTO: Devolva APENAS o texto limpo e organizado. Você está terminantemente PROIBIDO de incluir qualquer meta-texto, introduções suas, saudações ou comentários como "Aqui está o texto organizado". Você também está PROIBIDO de criar títulos ou etiquetas de seção como "Introdução:", "Desenvolvimento:" ou "Conclusão:". O resultado deve ser apenas os parágrafos de texto puro prontos para cópia. Não invente nenhuma informação fora do que foi falado.';
     } else {
-        systemPrompt = 'Você é um revisor editorial ortográfico e gramatical experiente. Sua tarefa é pegar um texto gerado por transcrição de voz (ditado bruto) e inseri-lo no formato perfeito. Adicione pontos, vírgulas e identifique perguntas no contexto adicionando o ponto de interrogação correspondente. Corrija maiúsculas e minúsculas. Mantenha estritamente as palavras e o vocabulário originais do autor, apenas corrija a estrutura de pontuação e fonemas errados do ditado.';
+        systemPrompt = 'Você é um revisor editorial ortográfico e gramatical experiente. Sua tarefa é pegar um texto gerado por transcrição de voz (ditado bruto) e inseri-lo no formato perfeito. Adicione pontos, vírgulas e pontos de interrogação baseados no contexto. REQUISITO ABSOLUTO: Devolva APENAS o texto corrigido. Não inclua nenhuma saudação, comentário ou meta-texto explicativo antes ou depois do texto. O resultado deve ser exclusivamente o texto puro pronto para cópia.';
     }
 
     try {
@@ -29,16 +28,10 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 model: 'deepseek-chat',
                 messages: [
-                    {
-                        role: 'system',
-                        content: systemPrompt
-                    },
-                    {
-                        role: 'user',
-                        content: text
-                    }
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: text }
                 ],
-                temperature: 0.3
+                temperature: 0.2
             })
         });
 
